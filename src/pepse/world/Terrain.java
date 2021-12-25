@@ -14,15 +14,16 @@ public class Terrain {
     private Vector2 windowDimensions;
 
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
+    private static final Color BASE_GRASS_COLOR = new Color(15, 213, 31);
     private static final int TERRAIN_DEPTH = 20;
 
 
     /**
      * constructor
-     * @param gameObjects
-     * @param groundLayer
-     * @param windowDimensions
-     * @param seed
+     * @param gameObjects game objects
+     * @param groundLayer ground layer
+     * @param windowDimensions window dimensions
+     * @param seed seed
      */
     public Terrain(GameObjectCollection gameObjects,
                    int groundLayer, Vector2 windowDimensions,
@@ -35,18 +36,28 @@ public class Terrain {
 
     /**
      * calculates the approximate ground height at point x
-     * @param x
-     * @return
+     * @param x x
+     * @return the approximate ground height at point x
      */
-    public float groundHeightAt(float x) { return windowDimensions.y()*(2/3f);} //todo create noise function
+    public float groundHeightAt(float x) {
+        return windowDimensions.y()*(2/3f);
+    } //todo create noise function
 
-
+    /**
+     * create blocks in the given range
+     * @param minX min x
+     * @param maxX max x
+     */
     public void createInRange(int minX, int maxX){
 
         for(int i = minX; i <= maxX; i+=Block.SIZE){
             float maxHeight = (float) Math.floor(groundHeightAt(i) / Block.SIZE) * Block.SIZE;
             for (float j = maxHeight; j < maxHeight+ TERRAIN_DEPTH*Block.SIZE; j+= Block.SIZE){
-                RectangleRenderable recRender = new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
+                RectangleRenderable recRender;
+                if (j == maxHeight)
+                    recRender = new RectangleRenderable(ColorSupplier.approximateColor(BASE_GRASS_COLOR));
+                else
+                    recRender = new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
                 Vector2 location = new Vector2(i,j);
                 Block block = new Block(location,recRender);
                 this.gameObjects.addGameObject(block);
