@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 public class Sun {
 
-    private static final float sunSize = 200;
+    public static final float sunSize = 200;
 
     public static GameObject create(
             GameObjectCollection gameObjects,
@@ -26,9 +26,9 @@ public class Sun {
         gameObjects.addGameObject(sun, layer);
         new Transition<Float>(sun,
                 angle -> sun.setCenter(windowDimensions.mult(0.5f).add(new Vector2((float) Math.cos(angle) * windowDimensions.x()/2,
-                        (float) Math.sin(angle)* windowDimensions.y()/2))) ,
+                        (float) Math.sin(angle)* windowDimensions.y()/2).mult(-1))) ,
                 0f,
-                360f,
+                (float) (Math.PI*2),
                 Transition.LINEAR_INTERPOLATOR_FLOAT,
                 cycleLength,
                 Transition.TransitionType.TRANSITION_LOOP,
