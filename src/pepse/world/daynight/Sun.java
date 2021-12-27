@@ -25,8 +25,8 @@ public class Sun {
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(sun, layer);
         new Transition<Float>(sun,
-                angle -> sun.setCenter(windowDimensions.mult(0.5f).add(new Vector2((float) Math.cos(angle) * windowDimensions.x()/2,
-                        (float) Math.sin(angle)* windowDimensions.y()/2).mult(-1))) ,
+                angle -> sun.setCenter(windowDimensions.mult(0.5f).add(new Vector2((float) Math.sin(angle) * windowDimensions.x()/2,
+                        (float) Math.cos(angle)* windowDimensions.y()/2).multY(-1))) ,
                 0f,
                 (float) (Math.PI*2),
                 Transition.LINEAR_INTERPOLATOR_FLOAT,
