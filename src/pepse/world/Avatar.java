@@ -52,7 +52,7 @@ public class Avatar extends GameObject {
         avatar.physics().preventIntersectionsFromDirection(Vector2.ZERO);
         avatar.transform().setAccelerationY(AVATAR_GRAVITY);
         gameObjects.addGameObject(avatar);
-        return null;
+        return avatar;
     }
 
     @Override
@@ -63,44 +63,45 @@ public class Avatar extends GameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        Vector2 toMove = Vector2.ZERO;
+
+        //X Movement
+        float xSpeed = 0;
         if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            toMove = toMove.add(Vector2.RIGHT);
+            xSpeed += 1;
             renderer().setIsFlippedHorizontally(true);
         }
         if (inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-            toMove = toMove.add(Vector2.LEFT);
             renderer().setIsFlippedHorizontally(false);
+            xSpeed -= 1;
         }
-        this.setVelocity(toMove.mult(AVATAR_MOVEMENT_SPEED));
+        this.transform().setVelocityX(xSpeed * AVATAR_MOVEMENT_SPEED);
+
+        //Jump
         if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && this.transform().getVelocity().y() == 0) {
-            this.setVelocity(Vector2.UP.mult(AVATAR_MOVEMENT_SPEED*3));
-
+            this.setVelocity(Vector2.UP.mult(AVATAR_MOVEMENT_SPEED));
         }
 
+        //Flight
         if (inputListener.isKeyPressed(KeyEvent.VK_SPACE) && inputListener.isKeyPressed(KeyEvent.VK_SHIFT)){
             if (energy >= 0.5f) {
-                this.setVelocity(Vector2.UP.mult(AVATAR_MOVEMENT_SPEED*3));
-//                this.transform().setAccelerationY(AVATAR_GRAVITY);
+                this.transform().setVelocityY(-AVATAR_MOVEMENT_SPEED);
                 this.renderer().setRenderableAngle(90f);
                 energy -= 0.5f;
             }
         }
         if (this.getVelocity().y() == 0){
             this.renderer().setRenderableAngle(0f);
-            if (energy < 100f && this.transform().getAcceleration().y() == 0){
+            if (energy < 100f && this.transform().getVelocity().y() == 0){
                 energy += 0.5f;
-                System.out.println(energy);
             }
         }
-
-  System.out.println(String.format("VelocityX: %f, VelocityY: %f",this.getVelocity().x(), this.transform().getVelocity().y()));
 
     }
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
+        this.transform().setVelocityY(0);
     }
 
 

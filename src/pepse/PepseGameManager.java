@@ -8,6 +8,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.gui.rendering.Camera;
 import danogl.util.Vector2;
 import pepse.world.Avatar;
 import pepse.world.Sky;
@@ -42,12 +43,12 @@ public class PepseGameManager extends GameManager {
         tree.createInRange(0,(int) windowController.getWindowDimensions().x());
         gameObjects().layers().shouldLayersCollide(groundLayer, treeLayer, true);
         Vector2 startingPos = new Vector2(0, terrain.groundHeightAt(0)-Avatar.DIMS.y());
-        Avatar.create(gameObjects(), startingPos,inputListener,imageReader);
+        Avatar avatar = Avatar.create(gameObjects(), startingPos,inputListener,imageReader);
         gameObjects().layers().shouldLayersCollide(Layer.DEFAULT, treeLayer, true);
         gameObjects().layers().shouldLayersCollide(groundLayer, Layer.DEFAULT, true);
-
-
-
+        setCamera(new Camera(avatar, Vector2.ZERO,
+                windowController.getWindowDimensions(),
+                windowController.getWindowDimensions()));
 
     }
 
