@@ -80,7 +80,7 @@ public class Avatar extends GameObject {
 
         if (inputListener.isKeyPressed(KeyEvent.VK_SPACE) && inputListener.isKeyPressed(KeyEvent.VK_SHIFT)){
             if (energy >= 0.5f) {
-                this.setVelocity(Vector2.UP.mult(AVATAR_MOVEMENT_SPEED * 3));
+                this.setVelocity(Vector2.UP.mult(AVATAR_MOVEMENT_SPEED*3));
 //                this.transform().setAccelerationY(AVATAR_GRAVITY);
                 this.renderer().setRenderableAngle(90f);
                 energy -= 0.5f;
