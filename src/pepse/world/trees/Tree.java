@@ -20,10 +20,10 @@ public class Tree {
 
     private static final Color treeLogColor = new Color(100,50,20);
     private static final Color treeLeavesColor = new Color(50  , 200, 30);
-    private Function<Float, Float> groundHeight;
-    private Vector2 windowDimensions;
-    private GameObjectCollection gameObjects;
-    private int layer;
+    private final Function<Float, Float> groundHeight;
+    private final Vector2 windowDimensions;
+    private final GameObjectCollection gameObjects;
+    private final int layer;
 
 
     public Tree(Function<Float,Float> groundHeight,
@@ -55,12 +55,21 @@ public class Tree {
         RectangleRenderable treeLogRenderable = new RectangleRenderable(ColorSupplier.approximateColor(treeLogColor));
         Vector2 treeTopLeft = new Vector2(location,
                 windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE);
-        Vector2 dims = new Vector2(Block.SIZE,height*Block.SIZE);
+        Vector2 dims = new Vector2(Block.SIZE, (groundHeight.apply(location)-treeTopLeft.y()));
         GameObject treeLog = new GameObject(treeTopLeft,dims,treeLogRenderable);
-        createTreeLeaves((int) (windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE),(int)location,8*Block.SIZE);
+        createTreeLeaves((int) (windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE),
+                (int)location,
+                8*Block.SIZE);
         this.gameObjects.addGameObject(treeLog,layer);
     }
 
+    /*
+    create one leaf
+     */
+    private Leaf createLeaf(Vector2 position){
+        RectangleRenderable leafRenderable = new RectangleRenderable(ColorSupplier.approximateColor(treeLeavesColor));
+        return new Leaf(position,leafRenderable,layer,gameObjects);
+    }
     /*
     create the leaves
      */
@@ -71,56 +80,11 @@ public class Tree {
                 float temp = rand.nextFloat(1);
                 if (temp >= 0.14f)
                 {
-                    RectangleRenderable leafRenderable = new RectangleRenderable(ColorSupplier.approximateColor(treeLeavesColor));
                     final Vector2 leafLocation = new Vector2(i,j);
-                    GameObject leaf = new Leaf(leafLocation,leafRenderable);
-                    float lifeTime = rand.nextFloat(200);
-                    //wind change task
-                    new ScheduledTask(leaf,
-                            rand.nextFloat(1),
-                            true,  () -> {
-                         new Transition<Float>(leaf,
-                                leaf.renderer()::setRenderableAngle,
-                                0f,
-                                180f,
-                                Transition.CUBIC_INTERPOLATOR_FLOAT,
-                                5,
-                                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
-                                null);
-                        new Transition<Vector2>(leaf,
-                                leaf::setDimensions,
-                                Vector2.ONES.mult(Block.SIZE),
-                                new Vector2(Block.SIZE*0.5f,Block.SIZE*0.9f),
-                                Transition.LINEAR_INTERPOLATOR_VECTOR,
-                                10,
-                                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
-                                null);
-                    });
-
-                    //life cycle task
-                    new ScheduledTask(leaf,
-                            lifeTime,
-                            true,
-                            ()->{
-                            leaf.transform().setVelocity(Vector2.DOWN.mult(50));
-                                new Transition<Float>(leaf,
-                                        leaf.transform()::setVelocityX,
-                                        -20f,
-                                        20f,
-                                        Transition.CUBIC_INTERPOLATOR_FLOAT,
-                                        1,
-                                        Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
-                                        null);
-                            leaf.renderer().fadeOut(rand.nextFloat(30),()-> {
-                                leaf.setTopLeftCorner(leafLocation);
-                                leaf.renderer().setOpaqueness(1);
-                            });
-                            }
-                            );
-                    gameObjects.addGameObject(leaf);
+                    Leaf leaf = createLeaf(leafLocation);
+                    gameObjects.addGameObject(leaf,layer);
                 }
             }
-
         }
 
     }

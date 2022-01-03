@@ -60,7 +60,7 @@ public class Terrain {
                     recRender = new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
                 Vector2 location = new Vector2(i,j);
                 Block block = new Block(location,recRender);
-                this.gameObjects.addGameObject(block);
+                this.gameObjects.addGameObject(block,groundLayer);
             }
         }
 
