@@ -24,6 +24,7 @@ public class PepseGameManager extends GameManager {
     private final int groundLayer = Layer.STATIC_OBJECTS;
     private final int treeLayer = Layer.STATIC_OBJECTS + 1;
 
+
     public static void main(String[] args) {
         new PepseGameManager().run();
     }
@@ -40,7 +41,8 @@ public class PepseGameManager extends GameManager {
         Tree tree = new Tree(terrain::groundHeightAt,windowController.getWindowDimensions(),gameObjects(),treeLayer);
         tree.createInRange(0,(int) windowController.getWindowDimensions().x());
         gameObjects().layers().shouldLayersCollide(groundLayer, treeLayer, true);
-        Avatar.create(gameObjects(),Layer.FOREGROUND, Vector2.ZERO,inputListener,imageReader);
+        Vector2 startingPos = new Vector2(0, terrain.groundHeightAt(0)-Avatar.DIMS.y());
+        Avatar.create(gameObjects(),Layer.FOREGROUND-1, startingPos,inputListener,imageReader);
 
 
 
