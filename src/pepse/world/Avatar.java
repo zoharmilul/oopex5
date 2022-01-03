@@ -4,6 +4,7 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
+import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
@@ -40,6 +41,10 @@ public class Avatar extends GameObject {
         Avatar.topLeftCorner = topLeftCorner;
         Avatar.inputListener = inputListener;
         Avatar.imageReader = imageReader;
+
+        Vector2 dims = new Vector2(3,ea1).mult(Block.SIZE);
+        Renderable avatarRenderable = imageReader.rdImage()
+        GameObject avatar = new GameObject(topLeftCorner,dims,)
         return null;
     }
 
@@ -52,6 +57,10 @@ public class Avatar extends GameObject {
         if (inputListener.isKeyPressed(KeyEvent.VK_LEFT))
             toMove.add(Vector2.LEFT);
         this.setVelocity(toMove.mult(AVATAR_MOVEMENT_SPEED));
+        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && this.getVelocity().y() == 0) {
+            this.setVelocity(Vector2.UP.mult(AVATAR_MOVEMENT_SPEED));
+
+        }
 
     }
 }

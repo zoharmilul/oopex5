@@ -8,6 +8,8 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.util.Vector2;
+import pepse.world.Avatar;
 import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
@@ -38,6 +40,11 @@ public class PepseGameManager extends GameManager {
         Tree tree = new Tree(terrain::groundHeightAt,windowController.getWindowDimensions(),gameObjects(),treeLayer);
         tree.createInRange(0,(int) windowController.getWindowDimensions().x());
         gameObjects().layers().shouldLayersCollide(groundLayer, treeLayer, true);
+        Avatar.create(gameObjects(),Layer.FOREGROUND, Vector2.ZERO,inputListener,imageReader);
+
+
+
+
     }
 
 }
