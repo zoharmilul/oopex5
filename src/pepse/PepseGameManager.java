@@ -42,7 +42,9 @@ public class PepseGameManager extends GameManager {
         tree.createInRange(0,(int) windowController.getWindowDimensions().x());
         gameObjects().layers().shouldLayersCollide(groundLayer, treeLayer, true);
         Vector2 startingPos = new Vector2(0, terrain.groundHeightAt(0)-Avatar.DIMS.y());
-        Avatar.create(gameObjects(),Layer.FOREGROUND-1, startingPos,inputListener,imageReader);
+        Avatar.create(gameObjects(), startingPos,inputListener,imageReader);
+        gameObjects().layers().shouldLayersCollide(Layer.DEFAULT, treeLayer, true);
+        gameObjects().layers().shouldLayersCollide(groundLayer, Layer.DEFAULT, true);
 
 
 

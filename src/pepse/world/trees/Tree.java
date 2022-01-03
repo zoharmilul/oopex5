@@ -56,7 +56,9 @@ public class Tree {
         Vector2 treeTopLeft = new Vector2(location,
                 windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE);
         Vector2 dims = new Vector2(Block.SIZE, (groundHeight.apply(location)-treeTopLeft.y()));
-        GameObject treeLog = new GameObject(treeTopLeft,dims,treeLogRenderable);
+        Block treeLog = new Block(treeTopLeft,treeLogRenderable);
+        treeLog.setDimensions(dims);
+        treeLog.setTopLeftCorner(treeTopLeft);
         createTreeLeaves((int) (windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE),
                 (int)location,
                 8*Block.SIZE);
