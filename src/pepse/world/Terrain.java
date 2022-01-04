@@ -6,16 +6,24 @@ import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Terrain {
 
     private GameObjectCollection gameObjects;
     private int groundLayer;
     private Vector2 windowDimensions;
+    private int seed;
+    private Random rand;
+
+    private float paramA;
+    private float paramB;
+    private float paramC;
 
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final Color BASE_GRASS_COLOR = new Color(15, 213, 31);
-    private static final int TERRAIN_DEPTH = 20;
+    private static final int TERRAIN_DEPTH = 30;
+
     public static final String grassLabel = "GRASS";
     public static final String landLabel = "LAND";
 
@@ -35,6 +43,11 @@ public class Terrain {
         this.gameObjects = gameObjects;
         this.groundLayer = groundLayer;
         this.windowDimensions = windowDimensions;
+        this.seed = seed;
+        rand = new Random(seed);
+        this.paramA = rand.nextInt(20)-10;
+        this.paramB = rand.nextInt(20)-10;
+        this.paramC = rand.nextInt(20)-10;
     }
 
     /**
@@ -43,7 +56,12 @@ public class Terrain {
      * @return the approximate ground height at point x
      */
     public float groundHeightAt(float x) {
-        return windowDimensions.y()*(2/3f);
+
+        float initValue = (float) (this.paramA*Math.sin(Math.PI*x) +
+                this.paramB*Math.sin(Math.sqrt(2)*x) +
+                this.paramC*Math.sin(Math.sqrt(Math.E)*x))*10;
+        return  initValue - 20 ;
+//        return windowDimensions.y()*((float)2/3);
     } //todo create noise function
 
     /**

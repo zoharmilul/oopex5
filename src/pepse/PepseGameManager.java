@@ -19,6 +19,7 @@ import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Tree;
 
 import java.awt.*;
+import java.util.Random;
 
 public class PepseGameManager extends GameManager {
     private static final int cycleLength = 30;
@@ -48,13 +49,14 @@ public class PepseGameManager extends GameManager {
                 soundReader,
                 inputListener,
                 windowController);
+        Random rand =new Random();
         Sky.create(gameObjects(),
                 windowController.getWindowDimensions(),
                 Layer.BACKGROUND);
         terrain = new Terrain(gameObjects(),
                 groundLayer,
                 windowController.getWindowDimensions(),
-                0);
+                rand.nextInt(5));
         terrain.createInRange((int)(-windowController.getWindowDimensions().x()*AVATAR_RATIO_TO_LAND),
                 (int) (windowController.getWindowDimensions().x()*(1+AVATAR_RATIO_TO_LAND)));
         Night.create(gameObjects(),

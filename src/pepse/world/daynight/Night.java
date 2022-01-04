@@ -14,6 +14,14 @@ public class Night {
 
     private static final Float MIDNIGHT_OPACITY = 0.5f;
 
+    /**
+     * creates night object
+     * @param gameObjects g
+     * @param layer l
+     * @param windowDimensions w
+     * @param cycleLength c
+     * @return r
+     */
     public static GameObject create(
             GameObjectCollection gameObjects,
             int layer,
@@ -25,15 +33,15 @@ public class Night {
         night.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(night,layer);
         night.setTag("Night");
-        night.renderer().setOpaqueness(0); //todo remove
-//        new Transition<Float>(night,
-//                night.renderer()::setOpaqueness,
-//                0f,
-//                MIDNIGHT_OPACITY,
-//                Transition.CUBIC_INTERPOLATOR_FLOAT,
-//                cycleLength/2,
-//                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
-//                null);
+        night.renderer().setOpaqueness(0);
+        new Transition<>(night,
+                night.renderer()::setOpaqueness,
+                0f,
+                MIDNIGHT_OPACITY,
+                Transition.CUBIC_INTERPOLATOR_FLOAT,
+                cycleLength/2,
+                Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
+                null);
         return night;
     }
 

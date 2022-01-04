@@ -42,8 +42,8 @@ public class Tree {
     public void createInRange(int minX, int maxX) {
         Random rand = new Random(seed);
         for (int i = minX; i<maxX; i+=5*Block.SIZE){
-            if (rand.nextBoolean()){
-                createTree((float)i,25 + rand.nextInt(10));
+            if (groundHeight.apply((float)i) >= 0.5f){
+                createTree((float)i,5 + rand.nextInt(20));
             }
         }
 
@@ -57,13 +57,13 @@ public class Tree {
 
         RectangleRenderable treeLogRenderable = new RectangleRenderable(ColorSupplier.approximateColor(treeLogColor));
         Vector2 treeTopLeft = new Vector2(location,
-                windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE);
-        Vector2 dims = new Vector2(Block.SIZE, (groundHeight.apply(location)-treeTopLeft.y()));
+                 groundHeight.apply(location) - height*Block.SIZE);
+        Vector2 dims = new Vector2(Block.SIZE, height*Block.SIZE);
         Block treeLog = new Block(treeTopLeft,treeLogRenderable);
         treeLog.setTag(treeTag);
         treeLog.setDimensions(dims);
         treeLog.setTopLeftCorner(treeTopLeft);
-        createTreeLeaves((int) (windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE),
+        createTreeLeaves((int)(treeLog.getTopLeftCorner().y()),
                 (int)location,
                 8*Block.SIZE);
         this.gameObjects.addGameObject(treeLog,layer);
@@ -79,9 +79,9 @@ public class Tree {
     /*
     create the leaves
      */
-    private void createTreeLeaves(int treeHeight,int treeX,int leafSize){
-        Random rand = new Random(seed*2);
-        for (int j = treeHeight - (leafSize)/2; j < treeHeight + leafSize/2 ; j+= Block.SIZE){
+    private void createTreeLeaves(int treeTopY,int treeX,int leafSize){
+        Random rand = new Random(treeX);
+        for (int j = treeTopY - (leafSize)/2; j < treeTopY + leafSize/2 ; j+= Block.SIZE){
             for (int i = treeX - (leafSize )/2; i < treeX + (leafSize )/2; i += Block.SIZE){
                 float temp = rand.nextFloat();
                 if (temp >= 0.14f)
