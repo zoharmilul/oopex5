@@ -8,6 +8,7 @@ import danogl.components.Transition;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.world.Block;
+import pepse.world.Terrain;
 
 import java.util.Random;
 
@@ -20,6 +21,8 @@ public class Leaf extends GameObject {
     private final Renderable renderable;
     private final int layer;
     private final GameObjectCollection gameObjects;
+    private final int MIN_LEAF_CYCLE = 10;
+    private final int MAX_LEAF_CYCLE = 200;
 
     /**
      * constructor
@@ -40,9 +43,8 @@ public class Leaf extends GameObject {
 
     private void createCycle(){
         new ScheduledTask(this,
-                rand.nextFloat(1),
+                rand.nextFloat(),
                 true,  () -> {
-
             //angle transition
             new Transition<Float>(this,
                     this.renderer()::setRenderableAngle,
@@ -65,9 +67,9 @@ public class Leaf extends GameObject {
         });
 
 
-        float lifeTime = rand.nextFloat(200);
+        int lifeTime = rand.nextInt(MAX_LEAF_CYCLE-MIN_LEAF_CYCLE) + MIN_LEAF_CYCLE;
         //life cycle task
-        new ScheduledTask(this, lifeTime, true, ()->{
+        new ScheduledTask(this, (float)lifeTime, true, ()->{
            horizontalTransition = new Transition<Float>(this,
                     this.transform()::setVelocityX,
                     -20f,
@@ -77,11 +79,17 @@ public class Leaf extends GameObject {
                     Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
                     null);
             this.transform().setVelocity(Vector2.DOWN.mult(50));
-            this.renderer().fadeOut(rand.nextFloat(30),()-> {
+            this.renderer().fadeOut(rand.nextInt(MIN_LEAF_CYCLE/2),()-> {
                 gameObjects.removeGameObject(this,layer);
                 gameObjects.addGameObject(new Leaf(topLeftCorner, renderable, layer,gameObjects),layer);
             });
         });
+    }
+
+
+    @Override
+    public boolean shouldCollideWith(GameObject other) {
+        return (other.getTag().equals(Terrain.grassLabel));
     }
 
     @Override

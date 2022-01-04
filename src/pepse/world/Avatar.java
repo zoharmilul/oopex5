@@ -16,7 +16,7 @@ public class Avatar extends GameObject {
 
     public final static Vector2 DIMS = new Vector2(3,5 ).mult(Block.SIZE);
 
-    private final static int AVATAR_GRAVITY = 1000;
+    private final static int AVATAR_GRAVITY = 500;
     private final static int AVATAR_MOVEMENT_SPEED = 300;
     private static GameObjectCollection gameObjects;
     private static int layer;

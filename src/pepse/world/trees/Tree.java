@@ -24,7 +24,10 @@ public class Tree {
     private final Vector2 windowDimensions;
     private final GameObjectCollection gameObjects;
     private final int layer;
+    private final int seed = 8;
 
+    public static String treeTag = "Tree";
+    public static String leafTag = "Leaf";
 
     public Tree(Function<Float,Float> groundHeight,
                 Vector2 windowDimensions,
@@ -37,7 +40,7 @@ public class Tree {
     }
 
     public void createInRange(int minX, int maxX) {
-        Random rand = new Random();
+        Random rand = new Random(seed);
         for (int i = minX; i<maxX; i+=5*Block.SIZE){
             if (rand.nextBoolean()){
                 createTree((float)i,25 + rand.nextInt(10));
@@ -57,6 +60,7 @@ public class Tree {
                 windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE);
         Vector2 dims = new Vector2(Block.SIZE, (groundHeight.apply(location)-treeTopLeft.y()));
         Block treeLog = new Block(treeTopLeft,treeLogRenderable);
+        treeLog.setTag(treeTag);
         treeLog.setDimensions(dims);
         treeLog.setTopLeftCorner(treeTopLeft);
         createTreeLeaves((int) (windowDimensions.x() - groundHeight.apply(location) - height* Block.SIZE),
@@ -76,19 +80,18 @@ public class Tree {
     create the leaves
      */
     private void createTreeLeaves(int treeHeight,int treeX,int leafSize){
-        Random rand = new Random();
+        Random rand = new Random(seed*2);
         for (int j = treeHeight - (leafSize)/2; j < treeHeight + leafSize/2 ; j+= Block.SIZE){
             for (int i = treeX - (leafSize )/2; i < treeX + (leafSize )/2; i += Block.SIZE){
-                float temp = rand.nextFloat(1);
+                float temp = rand.nextFloat();
                 if (temp >= 0.14f)
                 {
                     final Vector2 leafLocation = new Vector2(i,j);
                     Leaf leaf = createLeaf(leafLocation);
+                    leaf.setTag(leafTag);
                     gameObjects.addGameObject(leaf,layer);
                 }
             }
         }
-
     }
-
 }

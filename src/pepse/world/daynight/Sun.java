@@ -15,6 +15,8 @@ public class Sun {
 
     public static final float sunSize = 200;
 
+    public static String sunLabel = "sun";
+
     public static GameObject create(
             GameObjectCollection gameObjects,
             int layer,
@@ -33,6 +35,7 @@ public class Sun {
                 cycleLength,
                 Transition.TransitionType.TRANSITION_LOOP,
                 null);
+        sun.setTag(sunLabel);
         return sun;
     }
 

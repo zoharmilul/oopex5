@@ -16,6 +16,9 @@ public class Terrain {
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final Color BASE_GRASS_COLOR = new Color(15, 213, 31);
     private static final int TERRAIN_DEPTH = 20;
+    public static final String grassLabel = "GRASS";
+    public static final String landLabel = "LAND";
+
 
 
     /**
@@ -60,9 +63,16 @@ public class Terrain {
                     recRender = new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
                 Vector2 location = new Vector2(i,j);
                 Block block = new Block(location,recRender);
+                if (j <= maxHeight+Block.SIZE)
+                    block.setTag(grassLabel);
+                else
+                    block.setTag(landLabel);
                 this.gameObjects.addGameObject(block,groundLayer);
             }
         }
 
     }
+
+
+
 }
