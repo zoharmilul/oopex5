@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ex5">
+    <output-path>$PROJECT_DIR$/out/artifacts/ex5</output-path>
+    <root id="archive" name="ex5.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/README" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/uml_after.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/uml_before.png" />
+    </root>
+  </artifact>
+</component>
