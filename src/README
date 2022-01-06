@@ -7,7 +7,7 @@ so we did leaf as a separate Class but extends GameObject
 
 we created an extra terrain at the initialization of the game. then when ever the avatar is
 too close to the end of the screen (on either sides) we deleted the unnecessary terrain and added
-torwards the avatar direction
+towards the avatar direction
 
 we only added leaf, for the reason mentioned above
 
