@@ -15,6 +15,7 @@ import java.awt.*;
 public class Night {
 
     private static final Float MIDNIGHT_OPACITY = 0.5f;
+    private static final String NIGHT_TAG = "Night";
 
     /**
      * This function creates a black rectangular game object that covers the entire game window and changes
@@ -35,7 +36,7 @@ public class Night {
         GameObject night = new GameObject(Vector2.ZERO, windowDimensions,nightRenderable);
         night.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(night,layer);
-        night.setTag("Night");
+        night.setTag(NIGHT_TAG);
         night.renderer().setOpaqueness(0);
         new Transition<>(night,
                 night.renderer()::setOpaqueness,

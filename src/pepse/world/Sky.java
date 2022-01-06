@@ -15,6 +15,7 @@ public class Sky {
 
     //static consts
     private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
+    private static final String SKY_TAG = "sky";
 
 
     /**
@@ -32,7 +33,7 @@ public class Sky {
                 new RectangleRenderable(BASIC_SKY_COLOR));
         sky.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(sky, skyLayer);
-        sky.setTag("sky"); //for debugging
+        sky.setTag(SKY_TAG); //for debugging
         return sky;
     }
 
