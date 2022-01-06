@@ -9,12 +9,23 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
+/**
+ * Represents the sun - moves across the sky in an elliptical path.
+ */
 public class Sun {
 
     public static final float sunSize = 200;
 
-    public static String sunLabel = "sun";
+    public static String SUN_TAG = "sun";
 
+    /**
+     * This function creates a yellow circle that moves in the sky in an elliptical path (in camera coordinates).
+     * @param gameObjects The collection of all participating game objects.
+     * @param layer The number of the layer to which the created sun should be added.
+     * @param windowDimensions The dimensions of the windows.
+     * @param cycleLength The amount of seconds it should take the created game object to complete a full cycle.
+     * @return A new game object representing the sun.
+     */
     public static GameObject create(
             GameObjectCollection gameObjects,
             int layer,
@@ -25,7 +36,8 @@ public class Sun {
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(sun, layer);
         new Transition<Float>(sun,
-                angle -> sun.setCenter(windowDimensions.mult(0.5f).add(new Vector2((float) Math.sin(angle) * windowDimensions.x()/2,
+                angle -> sun.setCenter(windowDimensions.mult(0.5f).add
+                        (new Vector2((float) Math.sin(angle) * windowDimensions.x()/2,
                         (float) Math.cos(angle)* windowDimensions.y()/2).multY(-1))) ,
                 0f,
                 (float) (Math.PI*2),
@@ -33,7 +45,7 @@ public class Sun {
                 cycleLength,
                 Transition.TransitionType.TRANSITION_LOOP,
                 null);
-        sun.setTag(sunLabel);
+        sun.setTag(SUN_TAG);
         return sun;
     }
 
