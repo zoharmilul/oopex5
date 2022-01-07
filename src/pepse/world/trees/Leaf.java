@@ -37,6 +37,7 @@ public class Leaf extends GameObject {
     private static final float MIN_HORIZONTAL_MOVE = -20f;
     private static final float MAX_HORIZONTAL_MOVE = 20f;
     private static final int LEAF_FALL_VELOCITY = 50;
+    private static final String fallingLeafLabel = "fall";
 
 
     /**
@@ -73,6 +74,7 @@ public class Leaf extends GameObject {
         int lifeTime = rand.nextInt(MAX_LEAF_CYCLE - MIN_LEAF_CYCLE) + MIN_LEAF_CYCLE;
 
         new ScheduledTask(this, (float) lifeTime, true, () -> {
+            this.setTag(fallingLeafLabel);
             horizontalTransition = new Transition<Float>(this,
                     this.transform()::setVelocityX,
                     MIN_HORIZONTAL_MOVE,
@@ -126,7 +128,8 @@ public class Leaf extends GameObject {
      */
     @Override
     public boolean shouldCollideWith(GameObject other) {
-        return (other.getTag().equals(Terrain.GRASS_TAG));
+
+        return (this.getTag().equals(fallingLeafLabel) && other.getTag().equals(Terrain.GRASS_TAG));
     }
 
     /**

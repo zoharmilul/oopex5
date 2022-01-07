@@ -111,11 +111,13 @@ public class Avatar extends GameObject {
                 Renderable avatarFlightRenderable =
                         imageReader.readImage(AVATAR_FLIGHT_IMAGE_PATH, true);
                 this.renderer().setRenderable(avatarFlightRenderable);
+                this.renderer().setRenderableAngle(90);
                 energy -= AVATAR_ENERGY_CHANGE;
             }
         }
         if (this.getVelocity().y() == RESTING_VELOCITY) {
             this.renderer().setRenderable(avatarInitRenderable);
+            this.renderer().setRenderableAngle(0);
             if (energy < AVATAR_MAX_ENERGY && this.transform().getVelocity().y() == RESTING_VELOCITY) {
                 energy += AVATAR_ENERGY_CHANGE;
             }
